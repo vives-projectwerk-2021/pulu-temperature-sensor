@@ -16,6 +16,12 @@ class TemperatureSensors {
         // read temperature from top pcb
         double readMainTemperature();
 
+        // enter sleep mode
+        void sleep();
+
+        // wake up
+        void wake();
+
     private:
         I2C *i2c;
     

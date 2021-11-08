@@ -19,7 +19,24 @@ double TemperatureSensors::readMainTemperature()
     return readTemperature(MainTempAddr);
 }
 
-double TemperatureSensors::readTemperature(uint8_t address){
+void TemperatureSensors::sleep()
+{
+    char cmd[2] {0};                        // empty data buffer
+    cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
+    cmd[1] = 0b00000001;                    // Data for CONFOG register (enter sleep mode)
+    i2c->write(address, cmd, 2);            // Send Address and command
+}
+
+void TemperatureSensors::wake()
+{
+    char cmd[2] {0};                        // empty data buffer
+    cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
+    cmd[1] = 0b00000000;                    // Data for CONFOG register (leave sleep mode)
+    i2c->write(address, cmd, 2);            // Send Address and command
+}
+
+double TemperatureSensors::readTemperature(uint8_t address)
+{
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
     cmd[1] = ConfigData;                    // Data for CONFOG register (for 12bit operation)
