@@ -5,7 +5,7 @@ TCN75::TCN75(I2C* i2c, uint16_t address) {
     this.address = address
 }
 
-void TemperatureSensors::sleep()
+void TCN75::sleep()
 {
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
@@ -13,7 +13,7 @@ void TemperatureSensors::sleep()
     i2c->write(address, cmd, 2);            // Send Address and command
 }
 
-void TemperatureSensors::wake()
+void TCN75::wake()
 {
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
