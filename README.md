@@ -4,11 +4,11 @@ library for the pulu temperature sensors
 ## example
 ```c
 #include "mbed.h"
-#include "TemperatureSensors.h"
+#include "TCN75.h"
 
 I2C i2c(I2C_SDA, I2C_SCL);
 
-TemperatureSensors temp(&i2c);
+TCN75 sensor(&i2c, 0x48<<1);
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
         ThisThread::sleep_for(500ms);
         
         // because printf doesn't support float values in mbed
-        double Temperature = temp.readGroundTemperature();
+        double Temperature = sensor.temperature();
         int tempIntegerPart = int(Temperatue);
         int tempDecimalPart = (double(Temperature) - tempIntegerPart)*100;
 

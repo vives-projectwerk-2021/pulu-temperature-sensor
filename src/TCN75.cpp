@@ -1,22 +1,8 @@
-#include "mbed.h"
-#include "PinMap.h"
-#include "TemperatureSensors.h"
-#include <cstdint>
-#include <cstdio>
+#include "TCN75.h"
 
-TemperatureSensors::TemperatureSensors(I2C *i2c)
-{
-    this->i2c = i2c;
-}
-
-double TemperatureSensors::readGroundTemperature()
-{
-    return readTemperature(GroundTempAddr);
-}
-
-double TemperatureSensors::readMainTemperature()
-{
-    return readTemperature(MainTempAddr);
+TCN75::TCN75(I2C* i2c, uint16_t address) {
+    this.i2c = i2c
+    this.address = address
 }
 
 void TemperatureSensors::sleep()
@@ -35,8 +21,7 @@ void TemperatureSensors::wake()
     i2c->write(address, cmd, 2);            // Send Address and command
 }
 
-double TemperatureSensors::readTemperature(uint8_t address)
-{
+uint16_t TCN75::temperature() {
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
     cmd[1] = ConfigData;                    // Data for CONFOG register (for 12bit operation)
@@ -47,5 +32,5 @@ double TemperatureSensors::readTemperature(uint8_t address)
     i2c->read(address, cmd, 2);             // Read 2 bytes from TEMP register
 
     uint16_t temp = (cmd[0]<<8) | cmd[1];   // combine bytes
-    return double(temp/256.0);
+    return temp;
 }
