@@ -17,11 +17,11 @@ int main()
         ThisThread::sleep_for(500ms);
         
         // because printf doesn't support float values in mbed
-        double Temperatue = temp.readGroundTemperature();
+        double Temperature = temp.readGroundTemperature();
         int tempIntegerPart = int(Temperatue);
-        int tempDecimalPart = (double(Temperatue) - tempIntegerPart)*100;
+        int tempDecimalPart = (double(Temperature) - tempIntegerPart)*100;
 
-        printf("Temperatue:\t%i.%i°C\r\n", tempIntegerPart, tempDecimalPart);
+        printf("Temperature:\t%i.%i°C\r\n", tempIntegerPart, tempDecimalPart);
     }
 }
 ```
