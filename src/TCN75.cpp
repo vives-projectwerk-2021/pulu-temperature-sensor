@@ -1,8 +1,8 @@
 #include "TCN75.h"
 
 TCN75::TCN75(I2C* i2c, uint16_t address) {
-    this.i2c = i2c
-    this.address = address
+    this->i2c = i2c;
+    this->address = address;
 }
 
 void TCN75::sleep()
