@@ -6,10 +6,10 @@ class TCN75 {
     public:
         TCN75(I2C* i2c, uint8_t address);
 
-        void sleep();
-        void wake();
+        bool sleep();
+        bool wake();
 
-        int16_t temperature();
+        int16_t temperature(bool* error = nullptr);
     
     private:
         I2C* i2c;
