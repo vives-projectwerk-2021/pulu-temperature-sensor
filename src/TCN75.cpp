@@ -1,10 +1,12 @@
 #include "TCN75.h"
 
-TCN75::TCN75(I2C* i2c, uint16_t address) {
+TCN75::TCN75(I2C* i2c, uint8_t address) {
     this->i2c = i2c;
     this->address = address;
 }
 
+/** Set the register to enter sleep mode
+ */
 void TCN75::sleep()
 {
     char cmd[2] {0};                        // empty data buffer
@@ -13,6 +15,8 @@ void TCN75::sleep()
     i2c->write(address, cmd, 2);            // Send Address and command
 }
 
+/** Set the register to leave sleep mode
+ */
 void TCN75::wake()
 {
     char cmd[2] {0};                        // empty data buffer
@@ -21,7 +25,10 @@ void TCN75::wake()
     i2c->write(address, cmd, 2);            // Send Address and command
 }
 
-uint16_t TCN75::temperature() {
+/** Read the register containing the temperature
+ *  @return real temperature * 256
+ */
+int16_t TCN75::temperature() {
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
     cmd[1] = ConfigData;                    // Data for CONFOG register (for 12bit operation)

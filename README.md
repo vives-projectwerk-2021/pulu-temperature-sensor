@@ -14,14 +14,19 @@ int main()
 {
     while (1) 
     {
-        ThisThread::sleep_for(500ms);
+        ThisThread::sleep_for(1s);
+
+        sensor.wake();
+        ThisThread::sleep_for(60ms);
         
         // because printf doesn't support float values in mbed
-        double Temperature = sensor.temperature();
-        int tempIntegerPart = int(Temperatue);
+        double Temperature = (1.0*sensor.temperature())/256;
+        int tempIntegerPart = int(Temperature);
         int tempDecimalPart = (double(Temperature) - tempIntegerPart)*100;
 
         printf("Temperature:\t%i.%i°C\r\n", tempIntegerPart, tempDecimalPart);
+
+        sensor.sleep();
     }
 }
 ```
