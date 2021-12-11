@@ -17,5 +17,4 @@ class TCN75 {
     
     private:
         const char ConfigPointer = 0x01;
-        const char ConfigData = 0b01100000;
 };

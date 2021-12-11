@@ -23,7 +23,7 @@ bool TCN75::wake()
 {
     char cmd[2] {0};                        // empty data buffer
     cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
-    cmd[1] = 0b00000000;                    // Data for CONFOG register (leave sleep mode)
+    cmd[1] = 0b01100000;                    // Data for CONFOG register (leave sleep mode & set 12bit operation)
     return i2c->write(address, cmd, 2);     // Send Address and command
 }
 
@@ -32,22 +32,13 @@ bool TCN75::wake()
  */
 int16_t TCN75::temperature(bool* error) {
     bool ack;
-    char cmd[2] {0};                        // empty data buffer
-    cmd[0] = ConfigPointer;                 // Pointer to CONFIG register
-    cmd[1] = ConfigData;                    // Data for CONFOG register (for 12bit operation)
-    ack = i2c->write(address, cmd, 2);      // Send Address and command
-    if(ack) {
-        if(error != nullptr) *error = true;
-        return 0;
-    }
-
-    cmd[0] = 0x00;                          // set address to 0x00
+    char cmd[2] = {0x00, 0x00};             // empty data buffer with address 0x00
     ack = i2c->write(address, cmd, 1);      // Write adress/command byte, then register address
     if(ack) {
         if(error != nullptr) *error = true;
         return 0;
     }
-    ack = i2c->read(address, cmd, 2);             // Read 2 bytes from TEMP register
+    ack = i2c->read(address, cmd, 2);       // Read 2 bytes from TEMP register
     if(ack) {
         if(error != nullptr) *error = true;
         return 0;
